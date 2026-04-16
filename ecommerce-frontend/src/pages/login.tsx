@@ -1,11 +1,34 @@
+/**
+ * Login page component.
+ *
+ * Provides an email/password login form that authenticates the user
+ * against the backend API and stores the JWT token in localStorage.
+ *
+ * @module Login
+ */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Login page component.
+ *
+ * Renders email and password inputs, handles authentication via
+ * POST to `/api/auth/login`, and provides navigation to signup
+ * and forgot-password pages.
+ *
+ * @returns The login form JSX element.
+ */
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  /**
+   * Sends login credentials to the backend API.
+   *
+   * On success, stores the returned JWT token in localStorage.
+   * On failure, displays an alert with the error message.
+   */
   const handleLogin = async () => {
     try {
       const res = await fetch("http://localhost:3000/api/auth/login", {

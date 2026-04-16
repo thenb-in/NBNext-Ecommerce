@@ -1,3 +1,11 @@
+/**
+ * Root application component.
+ *
+ * Sets up client-side routing via React Router and renders a persistent
+ * navigation bar alongside all page-level route definitions.
+ *
+ * @module App
+ */
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 import Home from './pages/Home';
@@ -9,6 +17,11 @@ import ForgotPassword from './pages/ForgetPassword';
 import SuperadminDashboard from './pages/SuperadminDashboard';
 import LoginApproval from './pages/LoginApproval';
 
+/**
+ * Root application component that provides routing and navigation.
+ *
+ * @returns The rendered application with a navigation bar and routed pages.
+ */
 function App() {
   return (
     <Router>

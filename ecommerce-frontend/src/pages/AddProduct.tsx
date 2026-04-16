@@ -1,14 +1,30 @@
+/**
+ * AddProduct page component.
+ *
+ * Provides a comprehensive product creation form with support for
+ * basic product fields (title, SKU, price, stock, image) and dynamic
+ * variant generation. Submits the product payload to the backend API.
+ *
+ * @module AddProduct
+ */
 import { useState } from 'react';
 import VariantGenerator from '../components/VariantGenerator';
 import FloatingInput from '../utils/FloatingInput';
 import FloatingTextarea from '../utils/FloatingTextArea';
 
+/** Represents a single product image with URL, alt text, and primary flag. */
 interface ProductImage {
   url: string;
   altText: string;
   isPrimary: boolean;
 }
 
+/**
+ * Shape of the product creation form data.
+ *
+ * Includes base product fields and an array of variant objects,
+ * each with their own SKU, pricing, stock, images, and stock log entry.
+ */
 interface ProductFormData {
   title: string;
   description: string;
@@ -31,6 +47,15 @@ interface ProductFormData {
   }[];
 }
 
+/**
+ * AddProduct page component.
+ *
+ * Manages form state for creating a new product, delegates variant
+ * generation to the {@link VariantGenerator} component, and submits
+ * the final payload via POST to `/api/product`.
+ *
+ * @returns The product creation form JSX element.
+ */
 const AddProduct = () => {
   const [formData, setFormData] = useState<ProductFormData>({
     title: '',
@@ -43,6 +68,15 @@ const AddProduct = () => {
     variants: [],
   });
 
+  /**
+   * Handles the product form submission.
+   *
+   * If no variants have been explicitly generated, creates a default
+   * single variant from the base product fields. Sends the product
+   * data to the backend API via POST.
+   *
+   * @param e - The form submission event.
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -96,6 +130,14 @@ const AddProduct = () => {
     }
   };
 
+  /**
+   * Callback invoked when the VariantGenerator produces variant combinations.
+   *
+   * Maps the generated variants into the expected product form data structure,
+   * auto-generating SKUs and alt text from the base product fields and variant options.
+   *
+   * @param variants - Array of generated variant objects with options, imageUrl, price, and stock.
+   */
   const handleVariantsGenerated = (variants: {
     options: Record<string, string>;
     imageUrl: string;

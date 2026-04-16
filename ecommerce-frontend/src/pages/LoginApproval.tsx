@@ -1,5 +1,15 @@
+/**
+ * LoginApproval component.
+ *
+ * Displays a table of pending login/registration requests and provides
+ * approve/reject actions for each. Communicates with the admin approval
+ * API endpoint.
+ *
+ * @module LoginApproval
+ */
 import { useState } from "react";
 
+/** Represents a single pending login/registration request. */
 type LoginRequest = {
   id: string;
   name: string;
@@ -7,15 +17,38 @@ type LoginRequest = {
   role: string;
 };
 
+/** Props for the {@link LoginApproval} component. */
 type Props = {
+  /** Array of pending login requests to display. */
   loginRequests: LoginRequest[];
+  /** Callback to refresh the login requests list after an action. */
   fetchLoginRequests: () => void;
+  /** Callback to close the LoginApproval panel and return to the main view. */
   onclose: () => void;
 };
 
+/**
+ * LoginApproval component.
+ *
+ * Renders a table of pending login requests with approve/reject buttons.
+ * Sends approval decisions to `/api/v1/admin/approve_user` with a JWT
+ * Bearer token from localStorage.
+ *
+ * @param props - The component props containing login requests and callbacks.
+ * @returns The login approval panel JSX element.
+ */
 function LoginApproval({ loginRequests, fetchLoginRequests, onclose }: Props) {
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Handles the approval or rejection of a login request.
+   *
+   * Sends a POST request to the admin approval endpoint with the user ID
+   * and the approval status. Refreshes the request list on success.
+   *
+   * @param id - The unique identifier of the login request.
+   * @param status - Whether to approve or reject the request.
+   */
   const handleApproval = async (id: string, status: "approved" | "rejected") => {
     const check = status === "approved" ? true : null;
 

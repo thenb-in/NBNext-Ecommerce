@@ -1,11 +1,34 @@
+/**
+ * ForgotPassword page component.
+ *
+ * Allows users to reset their password by providing their email
+ * and a new password. Submits to the backend API and redirects
+ * to the login page on success.
+ *
+ * @module ForgotPassword
+ */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * ForgotPassword page component.
+ *
+ * Renders email and new-password fields and submits a reset request
+ * to `/api/auth/forgot-password`.
+ *
+ * @returns The password reset form JSX element.
+ */
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const navigate = useNavigate();
 
+  /**
+   * Sends the password reset request to the backend API.
+   *
+   * On success, navigates to the login page. On failure, displays
+   * an error alert.
+   */
   const handleReset = async () => {
     try {
       const res = await fetch("http://localhost:3000/api/auth/forgot-password", {

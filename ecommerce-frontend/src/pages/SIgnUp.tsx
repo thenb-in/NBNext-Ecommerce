@@ -1,6 +1,23 @@
+/**
+ * Signup page component.
+ *
+ * Provides a multi-role registration form supporting User, Employee,
+ * Manager, and Customer roles, each with role-specific fields.
+ *
+ * @module Signup
+ */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Signup page component.
+ *
+ * Renders a registration form with dynamic fields based on the selected
+ * role. Submits the payload to `/api/auth/signup` and navigates to the
+ * login page on success.
+ *
+ * @returns The signup form JSX element.
+ */
 export default function Signup() {
   const [form, setForm] = useState({
     name: "",
@@ -15,6 +32,13 @@ export default function Signup() {
 
   const navigate = useNavigate();
 
+  /**
+   * Sends the registration payload to the backend API.
+   *
+   * Constructs the payload based on the selected role, conditionally
+   * including managerId, companyName, or address fields. On success,
+   * navigates to the login page.
+   */
   const handleSignup = async () => {
     try {
       const payload = {

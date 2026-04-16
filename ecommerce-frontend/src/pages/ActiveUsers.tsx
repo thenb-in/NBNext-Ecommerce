@@ -1,5 +1,14 @@
+/**
+ * ActiveUsers page component.
+ *
+ * Displays a grid of currently active users with the ability to
+ * deactivate individual users through a confirmation dialog.
+ *
+ * @module ActiveUsers
+ */
 import React, { useState, useEffect } from "react";
 
+/** Data shape for an active user record. */
 interface ActiveUserData {
   id: string;
   name: string;
@@ -7,10 +16,22 @@ interface ActiveUserData {
   role: string;
 }
 
+/** Props for the {@link ActiveUser} component. */
 interface ActiveUserProps {
+  /** Callback to close the active users panel and return to the main dashboard view. */
   onclose: () => void;
 }
 
+/**
+ * ActiveUser component.
+ *
+ * Fetches and displays active users in a card grid. Provides a deactivation
+ * workflow with a confirmation dialog that calls `/api/v1/admin/deactivate_user`.
+ * Currently uses dummy data as a placeholder for the real API.
+ *
+ * @param props - The component props containing the close callback.
+ * @returns The active users panel JSX element.
+ */
 const ActiveUser = ({ onclose }: ActiveUserProps) => {
   const [activeUsers, setActiveUsers] = useState<ActiveUserData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -18,6 +39,12 @@ const ActiveUser = ({ onclose }: ActiveUserProps) => {
   const [showDialog, setShowDialog] = useState(false);
   const [currentSelectedUserId, setCurrentSelectedUserId] = useState<string | null>(null);
 
+  /**
+   * Fetches the list of active users.
+   *
+   * Currently loads hardcoded dummy data. Should be replaced with
+   * an actual API call to retrieve active users from the backend.
+   */
   const fetchActiveUsers = async () => {
     try {
       setLoading(true);
@@ -40,16 +67,30 @@ const ActiveUser = ({ onclose }: ActiveUserProps) => {
     fetchActiveUsers();
   }, []);
 
+  /**
+   * Opens the deactivation confirmation dialog for a specific user.
+   *
+   * @param userId - The ID of the user to potentially deactivate.
+   */
   const handleClick = (userId: string) => {
     setShowDialog(true);
     setCurrentSelectedUserId(userId);
   };
 
+  /** Closes the deactivation confirmation dialog without taking action. */
   const handleCancelLogout = () => {
     setShowDialog(false);
     setCurrentSelectedUserId(null);
   };
 
+  /**
+   * Deactivates a user by sending a POST request to the admin API.
+   *
+   * Closes the confirmation dialog, sends the deactivation request with
+   * a JWT Bearer token, and refreshes the active users list on success.
+   *
+   * @param id - The ID of the user to deactivate.
+   */
   const handleDeactivate = async (id: string) => {
     setShowDialog(false);
     try {

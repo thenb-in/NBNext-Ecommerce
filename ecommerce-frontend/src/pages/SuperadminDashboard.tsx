@@ -1,8 +1,26 @@
+/**
+ * Super Admin Dashboard page component.
+ *
+ * The primary admin control panel that toggles between three views:
+ * the client/manager data table, login approval requests, and active
+ * user management.
+ *
+ * @module SuperadminDashboard
+ */
 import LoginApproval from "./LoginApproval";
 import ActiveUser from "./ActiveUsers";
 import { useState } from "react";
 import SuperAdminTable from "../components/SuperAdminTable";
 
+/**
+ * SuperadminDashboard page component.
+ *
+ * Manages visibility state for three sub-views (SuperAdminTable,
+ * LoginApproval, ActiveUsers) and provides navigation buttons to
+ * switch between them.
+ *
+ * @returns The super admin dashboard JSX element.
+ */
 export default function SuperadminDashboard() {
   const [showLoginApproval, setShowLoginApproval] = useState(false);
   const [showActiveUsers, setShowActiveUsers] = useState(false);
@@ -21,16 +39,19 @@ export default function SuperadminDashboard() {
         { id: "10", name: "Chris Lewis", username: "chris_lewis", role: "Admin" },
       ];
     
+      /** Placeholder function for fetching login requests from the API. */
       const fetchLoginRequests= () => {
         console.log("hiiii")
       }
 
+      /** Switches the dashboard view to show the LoginApproval panel. */
       const handleUser = () => {
         setShowLoginApproval(true);
         setShowActiveUsers(false)
         setShowAdminTable(false)
       };
 
+      /** Switches the dashboard view to show the ActiveUsers panel. */
       const handleActiveUsers = () => {
         setShowActiveUsers(true);
         setShowLoginApproval(false);
